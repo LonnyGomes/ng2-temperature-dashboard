@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TemperatureSensor } from './../temperature/temperature-sensor.component';
+import { TemperatureSensor, ITemperatureSensor } from './../temperature/temperature-sensor.component';
 import { TemperatureService } from '../temperature/temperature.service'
 
 import '../../public/css/styles.css';
@@ -11,7 +11,7 @@ import '../../public/css/styles.css';
   providers: [TemperatureService]
 })
 export class AppComponent {
-  sensors:TemperatureSensor[];
+  sensors:ITemperatureSensor[];
 
   constructor(private temperatureService:TemperatureService) {
   }
