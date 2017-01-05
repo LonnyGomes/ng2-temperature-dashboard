@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import './temperature-sensor.component.css';
 
 export interface ITemperatureSensor {
     id: string;
