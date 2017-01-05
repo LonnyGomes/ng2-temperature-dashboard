@@ -4,7 +4,9 @@ import './temperature-sensor.component.css';
 export interface ITemperatureSensor {
     id: string;
     name: string;
-    lastUpdate: Date;
+    temperature: number;
+    humidity: number;
+    timeStamp: Date;
 }
 
 @Component({
@@ -22,7 +24,7 @@ export class TemperatureSensor {
         return this.data.id;
     }
 
-    get lastUpdate():Date {
-        return this.data.lastUpdate;
+    get timeStamp():Date {
+        return this.data.timeStamp;
     }
 }
