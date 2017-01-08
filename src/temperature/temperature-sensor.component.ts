@@ -3,7 +3,7 @@ import './temperature-sensor.component.css';
 
 export interface ITemperatureSensor {
     id: string;
-    name: string;
+    deviceName: string;
     temperature: number;
     humidity: number;
     timeStamp: Date;
@@ -17,7 +17,7 @@ export class TemperatureSensorComponent {
     @Input('sensorData') data:ITemperatureSensor;
 
     get name():string {
-        return this.data.name;
+        return this.data.deviceName;
     }
 
     get id():string {
