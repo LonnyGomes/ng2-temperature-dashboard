@@ -35,3 +35,9 @@ jspm_packages
 
 # Optional REPL history
 .node_repl_history
+
+# Additional files
+
+# The appSettings.json file never should be comitted
+# See appSettings.example for an example of how the file is formatted
+appSettings.json

@@ -1,0 +1,8 @@
+{
+    "apiHostName": "localhost:3000,
+    "deviceNames": [
+        "deviceName1",
+        "deviceName2",
+        "deviceName3"
+    ]
+}

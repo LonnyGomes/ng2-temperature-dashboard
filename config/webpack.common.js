@@ -11,7 +11,10 @@ module.exports = {
   },
 
   resolve: {
-    extensions: ['', '.ts', '.js']
+    extensions: ['', '.ts', '.js'],
+    alias: {
+      appSettings: helpers.root('config', 'appSettings.json')
+    }
   },
 
   module: {
@@ -37,6 +40,11 @@ module.exports = {
         test: /\.css$/,
         include: helpers.root('src', 'app'),
         loader: 'raw'
+      },
+      {
+        test: /\.json$/,
+        include: helpers.root('config'),
+        loader: 'json'
       }
     ]
   },
