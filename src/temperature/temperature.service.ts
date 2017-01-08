@@ -1,7 +1,6 @@
 import { Injectable, Component } from '@angular/core';
 import { TemperatureSensorComponent, ITemperatureSensor } from './temperature-sensor.component';
 import { Http } from '@angular/http';
-import {SENSORS} from './mock-temperature-sensors';
 
 @Injectable()
 export class TemperatureService {
@@ -30,10 +29,5 @@ export class TemperatureService {
         return Promise.all(this.deviceNames.map(curDeviceName => {
             return this.getIndividualSensor(curDeviceName);
         }));
-    }
-    getTemperatureSensorsSlowly():Promise<ITemperatureSensor[]> {
-        return new Promise((resolve, reject) => {
-            setTimeout(() => resolve(SENSORS), 2000);
-        });
     }
 }
