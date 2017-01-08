@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TemperatureSensor, ITemperatureSensor } from './../temperature/temperature-sensor.component';
+import { TemperatureSensorComponent, ITemperatureSensor } from './../temperature/temperature-sensor.component';
 import { TemperatureService } from '../temperature/temperature.service'
 
 import '../../public/css/styles.css';

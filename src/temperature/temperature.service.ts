@@ -1,5 +1,5 @@
 import { Injectable, Component } from '@angular/core';
-import { TemperatureSensor, ITemperatureSensor } from './temperature-sensor.component';
+import { TemperatureSensorComponent, ITemperatureSensor } from './temperature-sensor.component';
 import {SENSORS} from './mock-temperature-sensors';
 
 @Injectable()

@@ -13,7 +13,7 @@ export interface ITemperatureSensor {
     selector: 'temperature-sensor',
     templateUrl: './temperature-sensor.component.html'
 })
-export class TemperatureSensor {
+export class TemperatureSensorComponent {
     @Input('sensorData') data:ITemperatureSensor;
 
     get name():string {
