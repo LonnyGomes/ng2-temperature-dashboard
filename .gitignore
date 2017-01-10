@@ -41,3 +41,6 @@ jspm_packages
 # The appSettings.json file never should be comitted
 # See appSettings.example for an example of how the file is formatted
 appSettings.json
+
+# never commit the dist folder
+dist
