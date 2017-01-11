@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import {Component, OnInit, Input, ElementRef} from '@angular/core';
 import './temperature-sensor.component.css';
 
 export interface ITemperatureSensor {
@@ -9,12 +9,24 @@ export interface ITemperatureSensor {
     timeStamp: Date;
 }
 
+const d3 = require('d3');
+
 @Component({
     selector: 'temperature-sensor',
     templateUrl: './temperature-sensor.component.html'
 })
-export class TemperatureSensorComponent {
+export class TemperatureSensorComponent implements OnInit {
     @Input('sensorData') data:ITemperatureSensor;
+
+    element:ElementRef;
+
+    constructor(el: ElementRef) {
+        this.element = el;
+    }
+
+    ngOnInit() {
+        this.chartTemperature(this.element.nativeElement, this.data);
+    }
 
     private fahrenheitToCelsius(val:number) {
         return (val - 32) * (5 / 9);
@@ -62,5 +74,38 @@ export class TemperatureSensorComponent {
 
     get dewPoint():number {
         return this.calcDewPoint(this.temperature, this.humidity);
+    }
+
+    chartTemperature(element: Element, data: ITemperatureSensor) {
+        var margin = { top: 0, right: 0, bottom: 0, left: 0 },
+            frame = { width: 55, height: 150 },
+            bgColor = '#e2e2e2',
+            fgColor = '#3476d0',
+            width = frame.width - margin.left,
+            height = frame.height,
+            yScale = d3.scaleLinear()
+                .domain([0, 120])
+                .range([0, height]),
+            temperatureValues = [],
+            svg,
+            bgRect,
+            group;
+
+        svg = d3.select(element.querySelector('.temperature-sensor'))
+            .append('svg')
+            .attr('width', frame.width)
+            .attr('height', frame.height);
+
+        group = svg.append('g')
+            .attr('transform', 'translate(' +
+            margin.left + ', 0)');
+
+        bgRect = group.append('rect')
+            .attr('x', '0')
+            .attr('y', '0')
+            .attr('width', width)
+            .attr('height', height)
+            .attr('fill', bgColor);
+
     }
 }
