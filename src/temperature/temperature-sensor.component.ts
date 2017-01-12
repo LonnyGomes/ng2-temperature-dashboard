@@ -89,9 +89,10 @@ export class TemperatureSensorComponent implements OnInit {
             temperatureValues = [],
             svg,
             bgRect,
-            group;
+            group,
+            renderGuage;
 
-        svg = d3.select(element.querySelector('.temperature-sensor'))
+        svg = d3.select(element.querySelector('.temperature-guage'))
             .append('svg')
             .attr('width', frame.width)
             .attr('height', frame.height);
@@ -107,5 +108,45 @@ export class TemperatureSensorComponent implements OnInit {
             .attr('height', height)
             .attr('fill', bgColor);
 
+        renderGuage = function (guageData) {
+            var gaugeSelection = group.selectAll('.temperature-gauge'),
+                textSelection = group.selectAll('.temperature-text');
+
+            gaugeSelection
+                .data(guageData)
+                .enter()
+                .append('rect')
+                .attr('class', 'temperature-gauge')
+                .attr('x', '0')
+                .attr('width', width)
+                .attr('fill', fgColor)
+                .merge(gaugeSelection)
+                .attr('y', function (d) {
+                    console.log('asdf');
+                    return height - yScale(d.temperature);
+                })
+                .attr("height", function (d) {
+                    return yScale(d.temperature);
+                });
+
+            textSelection
+                .data(guageData)
+                .enter()
+                .append('text')
+                .attr('class', 'temperature-text')
+                .attr('text-anchor', 'middle')
+                .attr('x', function () {
+                    return width / 2;
+                })
+                .attr('y', function () {
+                    return height - 50;
+                })
+                .merge(textSelection)
+                .text(function (d) {
+                    return Math.round(d.temperature) + '°';
+                });
+        }
+
+        renderGuage(data);
     }
 }
