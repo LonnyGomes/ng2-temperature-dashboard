@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, ElementRef} from '@angular/core';
+import {SimpleChanges, Component, OnInit, OnChanges, Input, ElementRef, group} from '@angular/core';
 import './temperature-sensor.component.css';
 
 export interface ITemperatureSensor {
@@ -15,7 +15,7 @@ const d3 = require('d3');
     selector: 'temperature-sensor',
     templateUrl: './temperature-sensor.component.html'
 })
-export class TemperatureSensorComponent implements OnInit {
+export class TemperatureSensorComponent implements OnChanges {
     @Input('sensorData') data:ITemperatureSensor;
 
     element:ElementRef;
@@ -24,10 +24,9 @@ export class TemperatureSensorComponent implements OnInit {
         this.element = el;
     }
 
-    ngOnInit() {
-        this.chartTemperature(this.element.nativeElement, this.data);
+    ngOnChanges(changes: SimpleChanges) {
+        this.chartTemperature(this.element.nativeElement, changes['data'].currentValue);
     }
-
     private fahrenheitToCelsius(val:number) {
         return (val - 32) * (5 / 9);
     }
@@ -89,7 +88,7 @@ export class TemperatureSensorComponent implements OnInit {
             temperatureValues = [],
             svg,
             bgRect,
-            group,
+            group:any,
             renderGuage;
 
         svg = d3.select(element.querySelector('.temperature-guage'))
@@ -108,7 +107,7 @@ export class TemperatureSensorComponent implements OnInit {
             .attr('height', height)
             .attr('fill', bgColor);
 
-        renderGuage = function (guageData) {
+        renderGuage = function (guageData:ITemperatureSensor[]) {
             var gaugeSelection = group.selectAll('.temperature-gauge'),
                 textSelection = group.selectAll('.temperature-text');
 
@@ -121,11 +120,10 @@ export class TemperatureSensorComponent implements OnInit {
                 .attr('width', width)
                 .attr('fill', fgColor)
                 .merge(gaugeSelection)
-                .attr('y', function (d) {
-                    console.log('asdf');
+                .attr('y', function (d:ITemperatureSensor) {
                     return height - yScale(d.temperature);
                 })
-                .attr("height", function (d) {
+                .attr("height", function (d:ITemperatureSensor) {
                     return yScale(d.temperature);
                 });
 
@@ -142,11 +140,11 @@ export class TemperatureSensorComponent implements OnInit {
                     return height - 50;
                 })
                 .merge(textSelection)
-                .text(function (d) {
+                .text(function (d:ITemperatureSensor) {
                     return Math.round(d.temperature) + '°';
                 });
         }
 
-        renderGuage(data);
+        renderGuage([data]);
     }
 }

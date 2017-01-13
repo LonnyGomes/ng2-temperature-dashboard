@@ -25,7 +25,7 @@ export class AppComponent {
     let io = require('socket.io-client');
     let socket = io.connect(`http://${appSettings.apiHostName}`);
     socket.on('connect', ()=> console.log('connected via socket.io'));
-    socket.on('temperatureUpdated', data => {
+    socket.on('temperatureUpdated', (data:any) => {
       console.log('socket.io data updated:', data);
     });
   }
