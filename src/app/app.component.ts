@@ -17,10 +17,16 @@ export class AppComponent {
   }
 
   ngOnInit(): void {
+    const appSettings = require('appSettings');
+
     this.temperatureService.getTemperatureSensors()
-      .then(results => {
-        this.sensors = results
-        console.log(this.sensors);
-      });
+      .then(results => this.sensors = results);
+
+    let io = require('socket.io-client');
+    let socket = io.connect(`http://${appSettings.apiHostName}`);
+    socket.on('connect', ()=> console.log('connected via socket.io'));
+    socket.on('temperatureUpdated', data => {
+      console.log('socket.io data updated:', data);
+    });
   }
 }
