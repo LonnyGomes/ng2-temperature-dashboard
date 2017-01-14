@@ -26,12 +26,14 @@ export class AppComponent {
     let socket = io.connect(`http://${appSettings.apiHostName}`);
     socket.on('connect', ()=> console.log('connected via socket.io'));
     socket.on('temperatureUpdated', (data:ITemperatureSensor) => {
+      let idx = 0;
       console.log('socket.io data updated:', data);
       for (let curData of this.sensors) {
         if (curData.deviceName === data.deviceName) {
-          curData = data;
+          this.sensors[idx] = data;
           break;
         }
+        idx += 1;
       }
 
     });
