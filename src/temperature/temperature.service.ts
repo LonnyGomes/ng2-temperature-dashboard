@@ -1,6 +1,7 @@
+import { Observable, Observer } from 'rxjs/Rx';
 import { Injectable, Component } from '@angular/core';
 import { TemperatureSensorComponent, ITemperatureSensor } from './temperature-sensor.component';
-import { Http } from '@angular/http';
+import { Http, Response } from '@angular/http';
 
 let settings = require('appSettings');
 
@@ -12,20 +13,38 @@ export class TemperatureService {
     apiUrl:string = 'api/list/current/temperature';
     deviceNames:string [] = settings.deviceNames;
 
-    getIndividualSensor(deviceName:string):Promise<ITemperatureSensor> {
-        return this.http.get(`http://${this.apiHostName}/${this.apiUrl}/${deviceName}`)
-            .toPromise()
-            .then(response => {
-                let sensor:ITemperatureSensor = response.json().data as ITemperatureSensor;
-                console.log(sensor);
-                return sensor;
-            });
+    private extractData(res:Response) {
+        return res.json().data as ITemperatureSensor;
     }
 
-    getTemperatureSensors():Promise<ITemperatureSensor[]> {
+    private handleError (error: Response | any) {
+        // In a real world app, we might use a remote logging infrastructure
+        let errMsg: string;
+        if (error instanceof Response) {
+        const body = error.json() || '';
+        const err = body.error || JSON.stringify(body);
+        errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
+        } else {
+        errMsg = error.message ? error.message : error.toString();
+        }
+        console.error(errMsg);
+        return Observable.throw(errMsg);
+    }
+
+    getIndividualSensor(deviceName:string):Observable<ITemperatureSensor> {
+        return this.http.get(`http://${this.apiHostName}/${this.apiUrl}/${deviceName}`)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    getTemperatureSensors():Observable<ITemperatureSensor> {
         console.log(settings);
-        return Promise.all(this.deviceNames.map(curDeviceName => {
+        const results= this.deviceNames.map(curDeviceName => {
             return this.getIndividualSensor(curDeviceName);
-        }));
+        });
+        return Observable.from(results);
     }
 }
+
+
+
