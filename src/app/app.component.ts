@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs/Rx';
 import { Component } from '@angular/core';
 import { TemperatureSensorComponent, ITemperatureSensor } from './../temperature/temperature-sensor.component';
 import { TemperatureService } from '../temperature/temperature.service'
@@ -12,15 +13,16 @@ import '../../public/css/styles.css';
 })
 export class AppComponent {
   sensors:ITemperatureSensor[];
+  sensorsAsync:Observable<ITemperatureSensor>;
 
-  constructor(private temperatureService:TemperatureService) {
-  }
+  constructor(private temperatureService:TemperatureService) { }
 
   ngOnInit(): void {
     const appSettings = require('appSettings');
 
+    this.sensors = [];
     this.temperatureService.getTemperatureSensors()
-      .then(results => this.sensors = results);
+      .subscribe(results => this.sensors.push(results));
 
     let io = require('socket.io-client');
     let socket = io.connect(`http://${appSettings.apiHostName}`);

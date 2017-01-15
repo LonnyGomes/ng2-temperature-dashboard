@@ -2,7 +2,7 @@ import {SimpleChanges, Component, OnInit, OnChanges, Input, ElementRef, group} f
 import './temperature-sensor.component.css';
 
 export interface ITemperatureSensor {
-    id: string;
+    //id: string;
     deviceName: string;
     temperature: number;
     humidity: number;
@@ -55,9 +55,9 @@ export class TemperatureSensorComponent implements OnChanges {
         return this.data.deviceName;
     }
 
-    get id():string {
-        return this.data.id;
-    }
+    // get id():string {
+    //     return this.data.id;
+    // }
 
     get timeStamp():Date {
         return this.data.timeStamp;

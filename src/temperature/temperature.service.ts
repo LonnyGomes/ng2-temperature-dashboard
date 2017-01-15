@@ -39,12 +39,11 @@ export class TemperatureService {
 
     getTemperatureSensors():Observable<ITemperatureSensor> {
         console.log(settings);
-        const results= this.deviceNames.map(curDeviceName => {
+        const results:Observable<ITemperatureSensor>[] = this.deviceNames.map(curDeviceName => {
             return this.getIndividualSensor(curDeviceName);
         });
-        return Observable.from(results);
+
+        return Observable.from(results).flatMap(a => a);
     }
 }
-
-
 
