@@ -4,3 +4,7 @@
     padding: 10px 5px;
     margin: 5px 10px;
 }
+
+.temperature-val-text {
+    font-size: 2em;
+}

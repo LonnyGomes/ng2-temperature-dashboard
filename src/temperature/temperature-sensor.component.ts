@@ -26,8 +26,8 @@ export class TemperatureSensorComponent implements OnChanges {
 
     ngOnChanges(changes: SimpleChanges) {
         this.chartTemperature(this.element.nativeElement, changes['data'].currentValue);
-        this.chartTemperature2(this.element.nativeElement, changes['data'].currentValue);
     }
+
     private fahrenheitToCelsius(val:number) {
         return (val - 32) * (5 / 9);
     }
@@ -76,7 +76,7 @@ export class TemperatureSensorComponent implements OnChanges {
         return this.calcDewPoint(this.temperature, this.humidity);
     }
 
-    chartTemperature2(element:Element, temperatureData:ITemperatureSensor) {
+    chartTemperature(element:Element, temperatureData:ITemperatureSensor) {
         let margin = { top: 0, right: 0, bottom: 0, left: 0 },
             frame = { width: 100, height: 100 },
             bgColor = '#e2e2e2',
@@ -85,12 +85,13 @@ export class TemperatureSensorComponent implements OnChanges {
             height = frame.height,
             outerRadius = width / 2,
             innerRadius = outerRadius - 15,
-            maxTemp = 125,
+            maxTemp = 100,
             arc,
             svg,
             pie,
             path,
             colors:any,
+            textSelection,
             data:ITemperatureSensor[] = [],
             sampleData = [
                 {temperature: 70.0},
@@ -117,7 +118,7 @@ export class TemperatureSensorComponent implements OnChanges {
                 .innerRadius(innerRadius)
                 .padAngle(0.03);
 
-        svg = d3.select(element.querySelector('.temperature-chart'))
+        svg = d3.select(element.querySelector('.temperature-guage'))
             .append('svg')
             .attr('width', width)
             .attr('height', height)
@@ -133,78 +134,25 @@ export class TemperatureSensorComponent implements OnChanges {
                 console.log(colors(d.deviceName));
                 return colors(i);
             });
+
+        textSelection = svg.selectAll('.temperature-text');
+        textSelection
+            .data([temperatureData])
+            .enter()
+            .append('text')
+            .attr('class', 'temperature-val-text')
+            .attr('text-anchor', 'middle')
+            .attr("dominant-baseline", "central")
+            .attr('x', function () {
+                return 0;
+            })
+            .attr('y', function () {
+                return 0;
+            })
+            .merge(textSelection)
+            .text(function (d:ITemperatureSensor) {
+                return Math.round(d.temperature) + '°';
+            });
     }
 
-    chartTemperature(element: Element, data: ITemperatureSensor) {
-        let margin = { top: 0, right: 0, bottom: 0, left: 0 },
-            frame = { width: 55, height: 150 },
-            bgColor = '#e2e2e2',
-            fgColor = '#3476d0',
-            width = frame.width - margin.left,
-            height = frame.height,
-            yScale = d3.scaleLinear()
-                .domain([0, 120])
-                .range([0, height]),
-            temperatureValues = [],
-            svg,
-            bgRect,
-            group:any,
-            renderGuage;
-
-        svg = d3.select(element.querySelector('.temperature-guage'))
-            .append('svg')
-            .attr('width', frame.width)
-            .attr('height', frame.height);
-
-        group = svg.append('g')
-            .attr('transform', 'translate(' +
-            margin.left + ', 0)');
-
-        bgRect = group.append('rect')
-            .attr('x', '0')
-            .attr('y', '0')
-            .attr('width', width)
-            .attr('height', height)
-            .attr('fill', bgColor);
-
-        renderGuage = function (guageData:ITemperatureSensor[]) {
-            var gaugeSelection = group.selectAll('.temperature-gauge'),
-                textSelection = group.selectAll('.temperature-text');
-
-            gaugeSelection
-                .data(guageData)
-                .enter()
-                .append('rect')
-                .attr('class', 'temperature-gauge')
-                .attr('x', '0')
-                .attr('width', width)
-                .attr('fill', fgColor)
-                .merge(gaugeSelection)
-                .attr('y', function (d:ITemperatureSensor) {
-                    return height - yScale(d.temperature);
-                })
-                .attr("height", function (d:ITemperatureSensor) {
-                    return yScale(d.temperature);
-                });
-
-            textSelection
-                .data(guageData)
-                .enter()
-                .append('text')
-                .attr('class', 'temperature-text')
-                .attr('text-anchor', 'middle')
-                .attr('x', function () {
-                    return width / 2;
-                })
-                .attr('y', function () {
-                    return height - 50;
-                })
-                .merge(textSelection)
-                .text(function (d:ITemperatureSensor) {
-                    return Math.round(d.temperature) + '°';
-                });
-        }
-
-        renderGuage([data]);
-    }
 }
