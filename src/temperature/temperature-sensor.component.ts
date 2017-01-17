@@ -26,6 +26,7 @@ export class TemperatureSensorComponent implements OnChanges {
 
     ngOnChanges(changes: SimpleChanges) {
         this.chartTemperature(this.element.nativeElement, changes['data'].currentValue);
+        this.chartTemperature2(this.element.nativeElement, changes['data'].currentValue);
     }
     private fahrenheitToCelsius(val:number) {
         return (val - 32) * (5 / 9);
@@ -75,8 +76,67 @@ export class TemperatureSensorComponent implements OnChanges {
         return this.calcDewPoint(this.temperature, this.humidity);
     }
 
+    chartTemperature2(element:Element, temperatureData:ITemperatureSensor) {
+        let margin = { top: 0, right: 0, bottom: 0, left: 0 },
+            frame = { width: 100, height: 100 },
+            bgColor = '#e2e2e2',
+            fgColor = '#3476d0',
+            width = frame.width - margin.left,
+            height = frame.height,
+            outerRadius = width / 2,
+            innerRadius = outerRadius - 15,
+            maxTemp = 125,
+            arc,
+            svg,
+            pie,
+            path,
+            colors:any,
+            data:ITemperatureSensor[] = [],
+            sampleData = [
+                {temperature: 70.0},
+                {temperature: 30.0}
+            ];
+
+        data.push(temperatureData);
+        data.push({
+            temperature: maxTemp - temperatureData.temperature,
+            humidity: 0,
+            deviceName: 'none',
+            timeStamp: new Date()
+        });
+
+        colors = d3.scaleOrdinal()
+            .range([fgColor, bgColor]);
+
+        pie = d3.pie()
+            .value((d:ITemperatureSensor) => d.temperature)
+            .sort(null);
+
+        arc = d3.arc()
+                .outerRadius(outerRadius)
+                .innerRadius(innerRadius)
+                .padAngle(0.03);
+
+        svg = d3.select(element.querySelector('.temperature-chart'))
+            .append('svg')
+            .attr('width', width)
+            .attr('height', height)
+            .append('g')
+            .attr('transform', `translate(${width / 2}, ${height / 2})`);
+
+        path = svg.selectAll('path')
+            .data(pie(data))
+            .enter()
+            .append('path')
+            .attr('d', arc)
+            .attr('fill', (d:ITemperatureSensor, i:number) => {
+                console.log(colors(d.deviceName));
+                return colors(i);
+            });
+    }
+
     chartTemperature(element: Element, data: ITemperatureSensor) {
-        var margin = { top: 0, right: 0, bottom: 0, left: 0 },
+        let margin = { top: 0, right: 0, bottom: 0, left: 0 },
             frame = { width: 55, height: 150 },
             bgColor = '#e2e2e2',
             fgColor = '#3476d0',
