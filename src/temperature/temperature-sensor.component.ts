@@ -1,5 +1,6 @@
 import {SimpleChanges, Component, OnInit, OnChanges, Input, ElementRef, group} from '@angular/core';
 import './temperature-sensor.component.css';
+import * as moment from 'moment';
 
 export interface ITemperatureSensor {
     //id: string;
@@ -62,6 +63,14 @@ export class TemperatureSensorComponent implements OnChanges {
 
     get timeStamp():Date {
         return this.data.timeStamp;
+    }
+
+    get timeStampStr():string {
+        if (this.data.timeStamp) {
+            return moment(this.data.timeStamp).fromNow();
+        } else {
+            return moment().fromNow();
+        }
     }
 
     get temperature():number {
