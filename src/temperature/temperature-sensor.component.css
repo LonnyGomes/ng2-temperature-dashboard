@@ -1,10 +1,19 @@
 .temperature-sensor {
     border: 1px solid darkgray;
     display: inline-block;
-    padding: 10px 5px;
+    padding: 10px 10px;
     margin: 5px 10px;
+    min-width: 100px;
 }
 
-.temperature-val-text {
+.temperature-sensor--device-name {
+    text-align: center;
+}
+
+.temperature-sensor--guage {
+    margin-top: 10px;
+}
+
+.temperature-sensor--val-text {
     font-size: 2em;
 }

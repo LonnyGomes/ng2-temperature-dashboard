@@ -79,19 +79,19 @@ export class TemperatureSensorComponent implements OnChanges {
     chartTemperature(element:Element, temperatureData:ITemperatureSensor) {
         let margin = { top: 0, right: 0, bottom: 0, left: 0 },
             frame = { width: 100, height: 100 },
-            bgColor = '#e2e2e2',
-            fgColor = '#3476d0',
+            bgColor = '#3476d0',
+            fgColor = '#e2e2e2',
             width = frame.width - margin.left,
             height = frame.height,
             outerRadius = width / 2,
             innerRadius = outerRadius - 15,
             maxTemp = 100,
-            arc,
-            svg,
-            pie,
-            path,
+            arc:any,
+            svg:any,
+            pie:any,
+            path:any,
             colors:any,
-            textSelection,
+            textSelection:any,
             data:ITemperatureSensor[] = [],
             sampleData = [
                 {temperature: 70.0},
@@ -118,7 +118,7 @@ export class TemperatureSensorComponent implements OnChanges {
                 .innerRadius(innerRadius)
                 .padAngle(0.03);
 
-        svg = d3.select(element.querySelector('.temperature-guage'))
+        svg = d3.select(element.querySelector('.temperature-sensor--guage'))
             .append('svg')
             .attr('width', width)
             .attr('height', height)
@@ -131,16 +131,15 @@ export class TemperatureSensorComponent implements OnChanges {
             .append('path')
             .attr('d', arc)
             .attr('fill', (d:ITemperatureSensor, i:number) => {
-                console.log(colors(d.deviceName));
                 return colors(i);
             });
 
-        textSelection = svg.selectAll('.temperature-text');
+        textSelection = svg.selectAll('.temperature-sensor--val-text');
         textSelection
             .data([temperatureData])
             .enter()
             .append('text')
-            .attr('class', 'temperature-val-text')
+            .attr('class', 'temperature-sensor--val-text')
             .attr('text-anchor', 'middle')
             .attr("dominant-baseline", "central")
             .attr('x', function () {
