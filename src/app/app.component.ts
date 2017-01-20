@@ -4,6 +4,8 @@ import { TemperatureSensorComponent, ITemperatureSensor } from './../temperature
 import { TemperatureService } from '../temperature/temperature.service'
 
 import '../../public/css/styles.css';
+import * as _ from 'lodash';
+
 
 @Component({
   selector: 'my-app',
@@ -27,31 +29,23 @@ export class AppComponent {
     setInterval(() => {
       this.temperatureService.getTemperatureSensors()
         .subscribe(results => {
-          let idx = 0;
-          for (let curData of this.sensors) {
-            if (curData.deviceName === results.deviceName) {
-              this.sensors[idx] = results;
-              break;
-            }
-            idx += 1;
+          let idx = _.findIndex(this.sensors, ['deviceName', results.deviceName]);
+          if (idx > -1) {
+            this.sensors[idx] = results;
           }
         });
-    }, 20000);
+    }, 45000);
 
     let io = require('socket.io-client');
     let socket = io.connect(`http://${appSettings.apiHostName}`);
     socket.on('connect', ()=> console.log('connected via socket.io'));
     socket.on('temperatureUpdated', (data:ITemperatureSensor) => {
-      let idx = 0;
+      let idx = _.findIndex(this.sensors, ['deviceName', data.deviceName]);
       console.log('socket.io data updated:', data);
-      for (let curData of this.sensors) {
-        if (curData.deviceName === data.deviceName) {
-          this.sensors[idx] = data;
-          break;
-        }
-        idx += 1;
-      }
 
+      if (idx > -1) {
+        this.sensors[idx] = data;
+      }
     });
   }
 }
