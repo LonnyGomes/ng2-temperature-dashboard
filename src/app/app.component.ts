@@ -24,6 +24,20 @@ export class AppComponent {
     this.temperatureService.getTemperatureSensors()
       .subscribe(results => this.sensors.push(results));
 
+    setInterval(() => {
+      this.temperatureService.getTemperatureSensors()
+        .subscribe(results => {
+          let idx = 0;
+          for (let curData of this.sensors) {
+            if (curData.deviceName === results.deviceName) {
+              this.sensors[idx] = results;
+              break;
+            }
+            idx += 1;
+          }
+        });
+    }, 20000);
+
     let io = require('socket.io-client');
     let socket = io.connect(`http://${appSettings.apiHostName}`);
     socket.on('connect', ()=> console.log('connected via socket.io'));
