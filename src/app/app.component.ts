@@ -1,7 +1,8 @@
 import { Observable } from 'rxjs/Rx';
 import { Component } from '@angular/core';
 import { TemperatureSensorComponent, ITemperatureSensor } from './../temperature/temperature-sensor.component';
-import { TemperatureService } from '../temperature/temperature.service'
+import { TemperatureService } from '../temperature/temperature.service';
+import * as moment from 'moment';
 
 import '../../public/css/styles.css';
 import * as _ from 'lodash';
@@ -27,14 +28,11 @@ export class AppComponent {
       .subscribe(results => this.sensors.push(results));
 
     setInterval(() => {
-      this.temperatureService.getTemperatureSensors()
-        .subscribe(results => {
-          let idx = _.findIndex(this.sensors, ['deviceName', results.deviceName]);
-          if (idx > -1) {
-            this.sensors[idx] = results;
-          }
-        });
-    }, 45000);
+      //update the timeStamp string
+      for (const curSensorData of this.sensors) {
+        curSensorData.timeStampStr = moment(curSensorData.timeStamp).fromNow();
+      }
+    }, 30000);
 
     let io = require('socket.io-client');
     let socket = io.connect(`http://${appSettings.apiHostName}`);
@@ -44,6 +42,7 @@ export class AppComponent {
       console.log('socket.io data updated:', data);
 
       if (idx > -1) {
+        data.timeStamp = new Date();
         this.sensors[idx] = data;
       }
     });

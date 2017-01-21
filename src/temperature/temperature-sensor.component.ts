@@ -8,6 +8,7 @@ export interface ITemperatureSensor {
     temperature: number;
     humidity: number;
     timeStamp: Date;
+    timeStampStr?: string;
 }
 
 const d3 = require('d3');
@@ -66,7 +67,9 @@ export class TemperatureSensorComponent implements OnChanges {
     }
 
     get timeStampStr():string {
-        if (this.data.timeStamp) {
+        if (this.data.timeStampStr) {
+            return this.data.timeStampStr;
+        } else if (this.data.timeStamp) {
             return moment(this.data.timeStamp).fromNow();
         } else {
             return moment().fromNow();
