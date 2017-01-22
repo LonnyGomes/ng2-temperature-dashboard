@@ -1,4 +1,13 @@
 body {
     background: #0147A7;
     color: #fff;
+    font-family: 'RobotoCondensed-Regular', sans-serif;
+}
+
+/* fonts */
+@font-face {
+  font-family: 'Roboto Condensed';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Roboto Condensed'), local('RobotoCondensed-Regular'), url(../fonts/roboto_condensed/RobotoCondensed-Regular.ttf) format('truetype');
 }
