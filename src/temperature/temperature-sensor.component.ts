@@ -91,8 +91,8 @@ export class TemperatureSensorComponent implements OnChanges {
     chartTemperature(element:Element, temperatureData:ITemperatureSensor) {
         let margin = { top: 0, right: 0, bottom: 0, left: 0 },
             frame = { width: 100, height: 100 },
-            bgColor = '#3476d0',
-            fgColor = '#e2e2e2',
+            bgColor = '#cacaca',
+            fgColor = '#0a1654',
             width = frame.width - margin.left,
             height = frame.height,
             outerRadius = width / 2,
