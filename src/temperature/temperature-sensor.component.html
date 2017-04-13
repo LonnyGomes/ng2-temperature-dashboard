@@ -1,7 +1,9 @@
 <div class="temperature-sensor shadow">
     <div class="temperature-sensor--device-name">{{deviceName | temperatureDeviceName}}</div>
     <div class="temperature-sensor--guage"></div>
-    <div class="temperature-sensor--humidity">Humidity: {{humidity}}</div>
-    <div class="temperature-sensor--dew-point">Dew Point: {{dewPoint}}</div>
+    <p class="temperature-sub-header">Humidity</p>
+    <div class="temperature-sensor--humidity">{{humidity}}</div>
+    <p class="temperature-sub-header">Dew Point</p>
+    <div class="temperature-sensor--dew-point">{{dewPoint}}</div>
     <div class="temperature-sensor--time-stamp">{{timeStampStr}}</div>
 </div>

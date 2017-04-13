@@ -7,7 +7,11 @@
     background-color: #fff;
 }
 
+
 .temperature-sensor--device-name {
+    font-family: 'Roboto Condensed';
+    font-weight: 600;
+    font-size: 1.4em;
     text-align: center;
 }
 
@@ -17,4 +21,17 @@
 
 .temperature-sensor--val-text {
     font-size: 2em;
+}
+
+.temperature-sub-header {
+    font-family: 'Roboto Condensed';
+    font-weight: 600;
+    font-size: 0.8em;
+    color: #a5a5a5;
+}
+
+.temperature-sensor--time-stamp {
+    font-family: 'Roboto Condensed';
+    font-weight: 500;
+    font-size: 0.8em;
 }

@@ -1,5 +1,5 @@
 body {
-    background: #DEE6F1;
+    background: #E7E4E4;
     color: #4f4f4f;
     font-family: 'Roboto Condensed';
     margin: 0px;
@@ -35,4 +35,17 @@ p {
   font-style: normal;
   font-weight: 400;
   src: local('Roboto Condensed'), local('RobotoCondensed-Regular'), url(../fonts/roboto_condensed/RobotoCondensed-Regular.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Roboto Condensed';
+  font-style: normal;
+  font-weight: 500;
+  src: local('Roboto Condensed Light Italic'), local('RobotoCondensed-LightItalic'), url(../fonts/roboto_condensed/RobotoCondensed-LightItalic.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Roboto Condensed';
+  font-style: normal;
+  font-weight: 600;
+  src: local('Roboto Condensed Bold'), local('RobotoCondensed-Bold'), url(../fonts/roboto_condensed/RobotoCondensed-Bold.ttf) format('truetype');
 }
