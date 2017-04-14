@@ -1,6 +1,9 @@
 <header class="banner">
-  <p>Temperature Dashboard</p>
+  <span class="banner--menu-icon">&#9776;</span>
+  <span class="banner--header">Temperature Dashboard</span>
 </header>
 <main>
-  <temperature-sensor *ngFor="let sensor of sensors" [sensorData]="sensor"></temperature-sensor>
+  <div class="temperature-sensors-container">
+    <temperature-sensor *ngFor="let sensor of sensors" [sensorData]="sensor"></temperature-sensor>
+  </div>
 </main>
