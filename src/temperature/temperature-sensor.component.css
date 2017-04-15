@@ -1,7 +1,7 @@
 .temperature-sensor {
     /*border: 1px solid darkgray;*/
     display: inline-block;
-    padding: 10px 10px;
+    padding: 10px 20px;
     margin: 5px 10px;
     min-width: 100px;
     background-color: #fff;
@@ -11,12 +11,16 @@
 .temperature-sensor--device-name {
     font-family: 'Roboto Condensed';
     font-weight: 600;
-    font-size: 1.4em;
+    font-size: 1.6em;
     text-align: center;
 }
 
 .temperature-sensor--guage {
     margin-top: 10px;
+}
+
+.temperature-sensor-divider {
+
 }
 
 .temperature-sensor--val-text {
@@ -26,7 +30,7 @@
 .temperature-sub-header {
     font-family: 'Roboto Condensed';
     font-weight: 600;
-    font-size: 0.8em;
+    font-size: 0.9em;
     color: #a5a5a5;
 }
 
