@@ -3,7 +3,7 @@ import { Injectable, Component } from '@angular/core';
 import { TemperatureSensorComponent, ITemperatureSensor } from './temperature-sensor.component';
 import { Http, Response } from '@angular/http';
 
-let settings = require('appSettings');
+let settings = require('../appSettings.json');
 
 @Injectable()
 export class TemperatureService {
